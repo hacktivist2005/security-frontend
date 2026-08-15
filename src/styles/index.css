@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* 1. Google Fonts Import (Inter + JetBrains Mono for Cyber HUD look) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* 2. Global Reset */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* 3. Adaptive Background Grid (Dark Mode Default) */
+html.dark body {
+  background-color: #020617;
+  color: #f8fafc;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 60%),
+    linear-gradient(to right, rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+  background-size: 100% 100%, 36px 36px, 36px 36px;
+}
+
+/* 4. Adaptive Background Grid (Light Mode) */
+html:not(.dark) body {
+  background-color: #f8fafc;
+  color: #0f172a;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.10) 0%, transparent 60%),
+    linear-gradient(to right, rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 36px 36px, 36px 36px;
+}
+
+/* 5. Custom Neon Text Selection */
+::selection {
+  background-color: #10b981;
+  color: #020617;
+  text-shadow: none;
+}
+
+/* 6. Global Ultra-Sleek Scrollbar (Chrome/Edge/Safari) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.4);
+  border-radius: 9999px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.8);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+/* 7. Firefox Scrollbar Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.4) rgba(2, 6, 23, 0.6);
+}
+
+/* 8. Utility Classes */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.text-glow-emerald {
+  text-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+}
+
+/* Custom Scrollbar Utility Class for Inner Boxes */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.3);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.7);
+}
+
+/* Hide scrollbar for Horizontal Tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
