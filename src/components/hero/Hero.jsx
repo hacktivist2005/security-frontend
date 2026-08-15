@@ -161,7 +161,7 @@ function Hero() {
     if (!result) return;
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/generate-pdf", {
+      const response = await fetch("https://security-scanner-api-6rct.onrender.com/generate-pdf", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
