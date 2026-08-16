@@ -314,7 +314,7 @@ function Navbar() {
     { name: "Contact Us", path: "/contact", icon: FaEnvelope },
   ];
 
-  // Prevent background scroll when mobile menu is open
+  // Scroll Freeze for Mobile Menu
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = "hidden";
@@ -342,28 +342,28 @@ function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 backdrop-blur-2xl border-b transition-colors duration-500 ${
+      className={`fixed top-0 left-0 right-0 w-full z-50 backdrop-blur-2xl border-b transition-colors duration-500 ${
         darkMode
-          ? "bg-zinc-950/80 border-green-500/20 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]"
-          : "bg-white/80 border-slate-200 shadow-md"
+          ? "bg-zinc-950/90 border-green-500/20 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]"
+          : "bg-white/90 border-slate-200 shadow-md"
       }`}
     >
-      <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 py-3.5">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 py-3.5 h-[68px]">
         {/* ================= LOGO ================= */}
-        <Link to="/" className="flex items-center gap-3.5 group z-50">
+        <Link to="/" className="flex items-center gap-3.5 group">
           <motion.div
             whileHover={{ scale: 1.05, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
-            className="relative w-11 h-11 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center justify-center shadow-[0_0_20px_rgba(74,222,128,0.2)] group-hover:border-green-400 group-hover:shadow-[0_0_25px_rgba(74,222,128,0.4)] transition-all duration-300"
+            className="relative w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center justify-center shadow-[0_0_20px_rgba(74,222,128,0.2)] group-hover:border-green-400 transition-all duration-300"
           >
             <span className="absolute inset-0 rounded-xl bg-green-400/10 blur-sm" />
-            <FaShieldAlt className="relative text-green-400 text-xl transition-transform duration-300 group-hover:scale-110" />
+            <FaShieldAlt className="relative text-green-400 text-lg transition-transform duration-300 group-hover:scale-110" />
           </motion.div>
 
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <h1
-                className={`text-xl font-extrabold tracking-wider ${
+                className={`text-lg font-extrabold tracking-wider ${
                   darkMode ? "text-white" : "text-slate-900"
                 }`}
               >
@@ -374,15 +374,15 @@ function Navbar() {
                 SYS.ONLINE
               </span>
             </div>
-            <p className="text-[10px] font-mono text-green-400/80 tracking-widest uppercase">
+            <p className="text-[9px] font-mono text-green-400/80 tracking-widest uppercase">
               Cyber Footprint Analyzer
             </p>
           </div>
         </Link>
 
-        {/* ================= NAVIGATION (DESKTOP) ================= */}
+        {/* ================= DESKTOP NAV ================= */}
         <div
-          className={`hidden md:flex items-center gap-1.5 p-1.5 rounded-2xl border ${
+          className={`hidden md:flex items-center gap-1.5 p-1 rounded-xl border ${
             darkMode ? "bg-zinc-900/60 border-zinc-800" : "bg-slate-100/80 border-slate-200"
           }`}
         >
@@ -393,13 +393,13 @@ function Navbar() {
               <Link
                 key={item.path}
                 to={item.path}
-                className="relative px-5 py-2 text-sm font-medium transition-colors duration-300"
+                className="relative px-4 py-1.5 text-xs font-semibold transition-colors duration-300"
               >
                 {active && (
                   <motion.span
                     layoutId="navbar-pill"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    className={`absolute inset-0 rounded-xl ${
+                    className={`absolute inset-0 rounded-lg ${
                       darkMode
                         ? "bg-green-500/15 border border-green-500/30 shadow-[0_0_15px_rgba(74,222,128,0.2)]"
                         : "bg-white border border-slate-200 shadow-sm"
@@ -409,7 +409,7 @@ function Navbar() {
                 <span
                   className={`relative z-10 transition-colors ${
                     active
-                      ? "text-green-400 font-semibold"
+                      ? "text-green-400"
                       : darkMode
                       ? "text-zinc-400 hover:text-white"
                       : "text-slate-600 hover:text-slate-900"
@@ -422,130 +422,103 @@ function Navbar() {
           })}
         </div>
 
-        {/* ================= RIGHT SIDE ================= */}
-        <div className="flex items-center gap-3 z-50">
-          {/* Theme Toggle Button */}
+        {/* ================= RIGHT ACTION ================= */}
+        <div className="flex items-center gap-3">
+          {/* Theme Switcher */}
           <button
             onClick={toggleTheme}
             aria-label="Toggle Theme"
-            className={`w-10 h-10 rounded-xl border transition-all duration-300 flex items-center justify-center hover:scale-105 active:scale-95 ${
+            className={`w-9 h-9 rounded-xl border transition-all duration-300 flex items-center justify-center ${
               darkMode
-                ? "bg-zinc-900 border-zinc-800 text-yellow-400 hover:border-green-500/40 hover:shadow-[0_0_15px_rgba(74,222,128,0.15)]"
+                ? "bg-zinc-900 border-zinc-800 text-yellow-400 hover:border-green-500/40"
                 : "bg-slate-100 border-slate-200 text-slate-700 hover:border-green-500/40"
             }`}
           >
             {darkMode ? (
-              <FaSun className="text-yellow-400 text-base" />
+              <FaSun className="text-yellow-400 text-sm" />
             ) : (
-              <FaMoon className="text-indigo-500 text-base" />
+              <FaMoon className="text-indigo-500 text-sm" />
             )}
           </button>
 
-          {/* Desktop Action Button */}
+          {/* Desktop Button */}
           {location.pathname === "/" ? (
             <a
               href="#hero"
-              className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-green-500 via-emerald-400 to-green-400 text-zinc-950 font-bold text-sm tracking-wide transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] hover:shadow-[0_0_25px_rgba(74,222,128,0.45)]"
+              className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 text-zinc-950 font-bold text-xs tracking-wide transition-transform hover:scale-105"
             >
-              <FaTerminal className="text-xs" />
+              <FaTerminal className="text-[10px]" />
               Analyze Now
             </a>
           ) : (
             <Link
               to="/"
-              className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-green-500 via-emerald-400 to-green-400 text-zinc-950 font-bold text-sm tracking-wide transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] hover:shadow-[0_0_25px_rgba(74,222,128,0.45)]"
+              className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 text-zinc-950 font-bold text-xs tracking-wide transition-transform hover:scale-105"
             >
               Back to Home
             </Link>
           )}
 
-          {/* Cyber Hamburger Toggle Button */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle Menu"
-            className={`md:hidden relative w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-300 overflow-hidden ${
+            className={`md:hidden w-9 h-9 rounded-xl flex items-center justify-center border transition-all ${
               menuOpen
-                ? "bg-green-500/20 border-green-500 text-green-400 shadow-[0_0_15px_rgba(74,222,128,0.3)]"
+                ? "bg-green-500/20 border-green-500 text-green-400"
                 : darkMode
-                ? "bg-zinc-900 border-zinc-800 text-green-400 hover:border-green-500/40"
+                ? "bg-zinc-900 border-zinc-800 text-green-400"
                 : "bg-slate-100 border-slate-200 text-slate-800"
             }`}
           >
-            <AnimatePresence mode="wait">
-              {menuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <FaTimes className="text-lg" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="bars"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <FaBars className="text-lg" />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {menuOpen ? <FaTimes className="text-base" /> : <FaBars className="text-base" />}
           </button>
         </div>
       </nav>
 
-      {/* Scroll Progress Bar */}
+      {/* Progress Bar */}
       <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
         <motion.div
           className="h-full bg-gradient-to-r from-green-400 via-emerald-400 to-teal-300 shadow-[0_0_12px_rgba(74,222,128,0.8)]"
-          animate={{
-            width: `${scrollProgress}%`,
-          }}
-          transition={{
-            ease: "easeOut",
-            duration: 0.1,
-          }}
+          animate={{ width: `${scrollProgress}%` }}
+          transition={{ ease: "easeOut", duration: 0.1 }}
         />
       </div>
 
-      {/* ================= PREMIUM MOBILE OVERLAY ================= */}
+      {/* ================= FIXED MOBILE OVERLAY ================= */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className={`fixed inset-x-0 top-[73px] bottom-0 z-40 backdrop-blur-3xl md:hidden flex flex-col justify-between p-6 border-b shadow-2xl overflow-y-auto ${
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className={`fixed top-[68px] left-0 right-0 w-full h-[calc(100dvh-68px)] z-50 backdrop-blur-3xl md:hidden flex flex-col justify-between p-5 overflow-y-auto ${
               darkMode
-                ? "bg-zinc-950/95 border-green-500/20"
-                : "bg-white/95 border-slate-200"
+                ? "bg-zinc-950/98 border-t border-green-500/20 text-white"
+                : "bg-white/98 border-t border-slate-200 text-slate-900"
             }`}
           >
-            {/* Top Terminal Status Header */}
-            <div className="space-y-6">
+            <div className="space-y-4">
+              {/* Terminal Status Tag */}
               <div
-                className={`p-3.5 rounded-xl border flex items-center justify-between font-mono text-xs ${
+                className={`p-3 rounded-xl border flex items-center justify-between font-mono text-xs ${
                   darkMode
                     ? "bg-zinc-900/80 border-green-500/20 text-zinc-400"
                     : "bg-slate-100 border-slate-200 text-slate-600"
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-green-400 animate-ping" />
-                  <span className="text-green-400 font-semibold uppercase tracking-wider">
-                    Console Ready
+                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                  <span className="text-green-400 font-semibold uppercase">
+                    SYS.READY
                   </span>
                 </div>
-                <span className="text-[10px] opacity-70">v2.4.0 // OSINT</span>
+                <span className="text-[10px] opacity-70">v2.4.0</span>
               </div>
 
-              {/* Navigation Links Grid */}
-              <div className="grid gap-3">
+              {/* Navigation Items */}
+              <div className="grid gap-2.5">
                 {navLinks.map((item, index) => {
                   const active = location.pathname === item.path;
                   const Icon = item.icon;
@@ -553,53 +526,47 @@ function Navbar() {
                   return (
                     <motion.div
                       key={item.path}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0, x: -15 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.06 + 0.1, duration: 0.3 }}
+                      transition={{ delay: index * 0.05 }}
                     >
                       <Link
                         to={item.path}
                         onClick={() => setMenuOpen(false)}
-                        className={`group relative flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${
+                        className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
                           active
                             ? darkMode
-                              ? "bg-gradient-to-r from-green-500/20 to-emerald-500/10 border-green-500/40 text-green-400 shadow-[0_0_20px_rgba(74,222,128,0.15)]"
-                              : "bg-green-50 border-green-300 text-green-700 shadow-sm"
+                              ? "bg-green-500/15 border-green-500/40 text-green-400"
+                              : "bg-green-50 border-green-300 text-green-700"
                             : darkMode
-                            ? "bg-zinc-900/50 border-zinc-800/80 text-zinc-400 hover:border-green-500/30 hover:text-white hover:bg-zinc-900"
-                            : "bg-slate-50 border-slate-200/80 text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                            ? "bg-zinc-900/60 border-zinc-800 text-zinc-300"
+                            : "bg-slate-50 border-slate-200 text-slate-700"
                         }`}
                       >
-                        <div className="flex items-center gap-3.5">
+                        <div className="flex items-center gap-3">
                           <div
-                            className={`p-2.5 rounded-xl transition-colors ${
+                            className={`p-2 rounded-lg ${
                               active
                                 ? "bg-green-400/20 text-green-400"
                                 : darkMode
-                                ? "bg-zinc-800 text-zinc-400 group-hover:text-green-400 group-hover:bg-green-500/10"
-                                : "bg-slate-200 text-slate-600 group-hover:text-green-600 group-hover:bg-green-100"
+                                ? "bg-zinc-800 text-zinc-400"
+                                : "bg-slate-200 text-slate-600"
                             }`}
                           >
-                            <Icon className="text-lg" />
+                            <Icon className="text-sm" />
                           </div>
-                          <span className="font-semibold text-base tracking-wide">
+                          <span className="font-semibold text-sm">
                             {item.name}
                           </span>
                         </div>
 
                         <div className="flex items-center gap-2">
                           {active && (
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-green-500/20 text-green-400 border border-green-500/30">
+                            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-green-500/20 text-green-400 border border-green-500/30">
                               ACTIVE
                             </span>
                           )}
-                          <FaChevronRight
-                            className={`text-xs transition-transform duration-300 ${
-                              active
-                                ? "text-green-400 translate-x-1"
-                                : "opacity-40 group-hover:translate-x-1 group-hover:opacity-100"
-                            }`}
-                          />
+                          <FaChevronRight className="text-xs opacity-40" />
                         </div>
                       </Link>
                     </motion.div>
@@ -608,32 +575,27 @@ function Navbar() {
               </div>
             </div>
 
-            {/* Bottom Cyber CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.3 }}
-              className="pt-6 border-t border-green-500/10"
-            >
+            {/* Bottom CTA Button */}
+            <div className="pt-4 border-t border-green-500/10 mb-2">
               {location.pathname === "/" ? (
                 <a
                   href="#hero"
                   onClick={() => setMenuOpen(false)}
-                  className="flex justify-center items-center gap-2.5 w-full py-4 rounded-2xl bg-gradient-to-r from-green-500 via-emerald-400 to-green-400 text-zinc-950 font-bold text-base shadow-[0_0_25px_rgba(74,222,128,0.35)] active:scale-[0.98] transition-transform"
+                  className="flex justify-center items-center gap-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 text-zinc-950 font-bold text-sm shadow-[0_0_20px_rgba(74,222,128,0.3)]"
                 >
-                  <FaTerminal className="text-sm" />
-                  Launch Recon Scanner
+                  <FaTerminal className="text-xs" />
+                  Launch Scanner
                 </a>
               ) : (
                 <Link
                   to="/"
                   onClick={() => setMenuOpen(false)}
-                  className="flex justify-center items-center gap-2.5 w-full py-4 rounded-2xl bg-gradient-to-r from-green-500 via-emerald-400 to-green-400 text-zinc-950 font-bold text-base shadow-[0_0_25px_rgba(74,222,128,0.35)] active:scale-[0.98] transition-transform"
+                  className="flex justify-center items-center gap-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 text-zinc-950 font-bold text-sm shadow-[0_0_20px_rgba(74,222,128,0.3)]"
                 >
                   Back to Dashboard
                 </Link>
               )}
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
