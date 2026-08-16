@@ -30,13 +30,14 @@ function App() {
 
         <Navbar />
 
-        <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/about" element={<AboutPage />} />
-  <Route path="/features" element={<Features />} />
-  <Route path="/contact" element={<Contact />} />
-</Routes>
-
+        <main className="pt-[68px]">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </main>
         <Footer />
       </div>
     </BrowserRouter>
