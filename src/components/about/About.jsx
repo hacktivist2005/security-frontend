@@ -162,12 +162,12 @@ function AnimatedStat({ value, label, bodyText }) {
     <motion.div
       onViewportEnter={handleEnter}
       viewport={{ once: true, amount: 0.6 }}
-      className="p-10 text-center"
+      className="p-4 sm:p-6 lg:p-10 text-center"
     >
-      <h2 className="font-mono text-5xl font-bold bg-gradient-to-br from-green-300 via-green-400 to-emerald-500 bg-clip-text text-transparent">
+      <h2 className="font-mono text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-br from-green-300 via-green-400 to-emerald-500 bg-clip-text text-transparent break-words">
         {isNumeric ? `${display}${suffix}` : value}
       </h2>
-      <p className={`mt-4 ${bodyText}`}>{label}</p>
+      <p className={`mt-2 sm:mt-4 text-xs sm:text-base ${bodyText}`}>{label}</p>
     </motion.div>
   );
 }
@@ -554,9 +554,11 @@ function About() {
               <div
                 key={stat.label}
                 className={`border-green-500/20 ${
-                  i < 3 ? "border-b lg:border-b-0 lg:border-r" : ""
-                } ${i === 2 ? "border-r-0 lg:border-r" : ""}`}
-              >
+            i % 2 === 0 ? "border-r lg:border-r-0" : ""
+          } ${i < 2 ? "border-b lg:border-b-0" : ""} ${
+            i < 3 ? "lg:border-r" : ""
+          }`}
+        >
                 <AnimatedStat {...stat} bodyText={bodyText} />
               </div>
             ))}
