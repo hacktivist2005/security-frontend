@@ -327,22 +327,30 @@ function Navbar() {
   }, [menuOpen]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const documentHeight =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const progress = (scrollTop / (documentHeight || 1)) * 100;
-      setScrollProgress(progress);
-    };
+  let ticking = false;
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const handleScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrollTop = window.scrollY;
+        const documentHeight =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        const progress = (scrollTop / (documentHeight || 1)) * 100;
+        setScrollProgress(progress);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 w-full z-50 backdrop-blur-2xl border-b transition-colors duration-500 ${
+      className={`fixed top-0 left-0 right-0 w-full z-50 transform-gpu backdrop-blur-md bg-zinc-950/95 border-b transition-colors duration-500 ${
         darkMode
           ? "bg-zinc-950/90 border-green-500/20 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]"
           : "bg-white/90 border-slate-200 shadow-md"
@@ -493,7 +501,7 @@ function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className={`fixed top-[68px] left-0 right-0 w-full h-[calc(100dvh-68px)] z-50 backdrop-blur-3xl md:hidden flex flex-col justify-between p-5 overflow-y-auto ${
+            className={`fixed top-[68px] left-0 right-0 w-full h-[calc(100dvh-68px)] z-50 bg-zinc-950/98 md:hidden flex flex-col justify-between p-5 overflow-y-auto ${
               darkMode
                 ? "bg-zinc-950/98 border-t border-green-500/20 text-white"
                 : "bg-white/98 border-t border-slate-200 text-slate-900"

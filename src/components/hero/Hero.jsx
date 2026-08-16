@@ -197,7 +197,7 @@ function Hero() {
       }`}
     >
       {/* Background Radial Glow */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-green-500/10 blur-[160px] pointer-events-none -z-10 rounded-full" />
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-green-500/10 blur-3xl pointer-events-none -z-10 rounded-full" />
       {/* Background Cyber Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f2d1e_1px,transparent_1px),linear-gradient(to_bottom,#0f2d1e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20 pointer-events-none -z-10" />
 
