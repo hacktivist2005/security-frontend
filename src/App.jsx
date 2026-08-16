@@ -12,6 +12,7 @@ import Features from "./pages/Features";
 
 
 import { useTheme } from "./context/ThemeContext";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const { darkMode } = useTheme();
@@ -42,6 +43,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <Analytics />
       </div>
     </BrowserRouter>
   );
