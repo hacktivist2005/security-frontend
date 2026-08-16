@@ -350,10 +350,10 @@ function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 w-full z-50 transform-gpu backdrop-blur-md bg-zinc-950/95 border-b transition-colors duration-500 ${
+      className={`fixed top-0 left-0 right-0 w-full z-50 backdrop-blur-none md:backdrop-blur-md transition-colors duration-300 ${
         darkMode
-          ? "bg-zinc-950/90 border-green-500/20 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]"
-          : "bg-white/90 border-slate-200 shadow-md"
+          ? "bg-zinc-950/95 border-b border-green-500/20"
+          : "bg-white/95 border-b border-slate-200"
       }`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 py-3.5 h-[68px]">
@@ -501,10 +501,10 @@ function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className={`fixed top-[68px] left-0 right-0 w-full h-[calc(100dvh-68px)] z-50 bg-zinc-950/98 md:hidden flex flex-col justify-between p-5 overflow-y-auto ${
+            className={`fixed top-[68px] left-0 right-0 w-full h-[calc(100dvh-68px)] z-50 md:hidden flex flex-col justify-between p-5 overflow-y-auto ${
               darkMode
-                ? "bg-zinc-950/98 border-t border-green-500/20 text-white"
-                : "bg-white/98 border-t border-slate-200 text-slate-900"
+                ? "bg-zinc-950 text-white border-t border-green-500/20"
+                : "bg-white text-slate-900 border-t border-slate-200"
             }`}
           >
             <div className="space-y-4">

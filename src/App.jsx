@@ -19,14 +19,17 @@ function App() {
   return (
     <BrowserRouter>
       <div
-        className={`min-h-screen transition-all duration-500 ${
+        className={`min-h-screen transition-colors duration-300 ${
           darkMode
             ? "bg-[#030712] text-white"
             : "bg-gray-100 text-black"
         }`}
       >
         <BackgroundGlow />
-        <CursorGlow />
+
+        <div className="hidden md:block">
+          <CursorGlow />
+        </div>
 
         <Navbar />
 
