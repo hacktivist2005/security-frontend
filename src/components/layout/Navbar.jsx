@@ -522,7 +522,7 @@ function Navbar() {
                     SYS.READY
                   </span>
                 </div>
-                <span className="text-[10px] opacity-70">v2.4.0</span>
+                <span className="text-[10px] opacity-70">v1.0.0</span>
               </div>
 
               {/* Navigation Items */}
