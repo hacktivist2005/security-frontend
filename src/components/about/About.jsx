@@ -255,7 +255,7 @@ function About() {
         <h1 className={`mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight ${headingText}`}>
           About
           <span className="bg-gradient-to-r from-green-300 via-green-400 to-emerald-400 bg-clip-text text-transparent">
-            {" "}OSINT Cyber Footprint Analyzer
+            {" "}CyberTrace
           </span>
         </h1>
 
