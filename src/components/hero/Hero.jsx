@@ -1206,8 +1206,8 @@ import {
   FiLayers,
   FiCpu,
   FiDownload,
-  FiAlertTriangle,
   FiShare2,
+  FiActivity,
 } from "react-icons/fi";
 
 const SectionTitle = ({ icon: Icon, title, color = "text-emerald-400" }) => (
@@ -1225,6 +1225,9 @@ export default function Hero() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
+  
+  // Active Tab State (Default: 'overview')
+  const [activeTab, setActiveTab] = useState("overview");
 
   // PDF Download Handler
   const downloadPDF = async () => {
@@ -1260,14 +1263,23 @@ export default function Hero() {
     }
   };
 
+  // Tabs Array
+  const tabs = [
+    { id: "overview", label: "Overview & Risk", icon: FiActivity },
+    { id: "dns", label: "DNS Records", icon: FiGlobe },
+    { id: "subdomains", label: "Subdomains", icon: FiLayers },
+    { id: "ports_tech", label: "Ports & Tech", icon: FiServer },
+    { id: "graph", label: "Network Graph", icon: FiShare2 },
+  ];
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500 selection:text-slate-950 pb-20">
-      {/* Background Overlay */}
+      {/* Background Cyber Grid */}
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-25 pointer-events-none" />
 
       <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-        {/* Search Input HUD Section */}
-        <div className="mb-12">
+        {/* Search Input Box */}
+        <div className="mb-8">
           <SearchBox
             setResult={setResult}
             loading={loading}
@@ -1275,102 +1287,133 @@ export default function Hero() {
           />
         </div>
 
-        {/* Loading State */}
+        {/* Loading Skeleton */}
         {loading && (
           <div className="mt-8">
             <SkeletonLoader />
           </div>
         )}
 
-        {/* Scan Results Display */}
+        {/* Scan Results */}
         {!loading && result && (
-          <div className="space-y-8 animate-fade-in">
-            {/* Header / Target Overview Card */}
-            <div className="relative overflow-hidden rounded-2xl bg-slate-900/80 border border-slate-800 p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-800/80 pb-6">
+          <div className="space-y-6 animate-fade-in">
+            {/* Target Header Info Banner */}
+            <div className="relative overflow-hidden rounded-2xl bg-slate-900/80 border border-slate-800 p-5 sm:p-6 backdrop-blur-xl shadow-2xl">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 mb-2 uppercase tracking-wider">
+                  <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 mb-1 uppercase tracking-wider">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                     Target Assessment Complete
                   </div>
-                  <h1 className="text-2xl sm:text-4xl font-black font-mono tracking-tight text-white break-all">
+                  <h1 className="text-2xl sm:text-3xl font-black font-mono tracking-tight text-white break-all">
                     {result?.whois?.domain || result?.ip?.query || "Target Host"}
                   </h1>
                 </div>
 
-                {/* PDF Export Button */}
                 <button
                   onClick={downloadPDF}
                   disabled={pdfLoading}
-                  className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-3 rounded-xl transition duration-200 disabled:opacity-50 cursor-pointer shadow-lg shadow-emerald-500/10"
+                  className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl transition duration-200 disabled:opacity-50 cursor-pointer text-sm shadow-lg shadow-emerald-500/10 shrink-0"
                 >
                   <FiDownload className={pdfLoading ? "animate-bounce" : ""} />
-                  <span>{pdfLoading ? "Generating PDF..." : "Export Intelligence Report"}</span>
+                  <span>{pdfLoading ? "Generating..." : "Export Report"}</span>
                 </button>
               </div>
+            </div>
 
-              {/* Risk Assessment & Metrics Grid */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-                <div className="lg:col-span-1 bg-slate-950/50 p-4 rounded-xl border border-slate-800/60">
-                  <RiskScoreMeter score={result?.risk?.score || 0} />
+            {/* Navigation Tabs (Mobile-responsive Horizontal Scrollable Bar) */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-slate-800/80">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                      isActive
+                        ? "bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 shadow-lg shadow-emerald-500/5"
+                        : "bg-slate-900/60 border border-slate-800/80 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+                    }`}
+                  >
+                    <Icon className={isActive ? "text-emerald-400" : "text-slate-500"} />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* TAB CONTENTS */}
+            <div className="mt-6">
+              {/* TAB 1: OVERVIEW & RISK */}
+              {activeTab === "overview" && (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
+                  <div className="lg:col-span-1 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+                    <RiskScoreMeter score={result?.risk?.score || 0} />
+                  </div>
+                  <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <ResultCard
+                      title="Domain IP Address"
+                      value={result?.ip?.query || result?.whois?.ip || "N/A"}
+                    />
+                    <ResultCard
+                      title="Registrar"
+                      value={result?.whois?.registrar || "N/A"}
+                    />
+                    <ResultCard
+                      title="Country / Region"
+                      value={
+                        result?.ip?.country
+                          ? `${result.ip.country} (${result.ip.countryCode || ""})`
+                          : "N/A"
+                      }
+                    />
+                    <ResultCard
+                      title="Autonomous System (ASN)"
+                      value={result?.ip?.as || "N/A"}
+                    />
+                  </div>
                 </div>
-                <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <ResultCard
-                    title="Domain IP Address"
-                    value={result?.ip?.query || result?.whois?.ip || "N/A"}
-                  />
-                  <ResultCard
-                    title="Registrar"
-                    value={result?.whois?.registrar || "N/A"}
-                  />
-                  <ResultCard
-                    title="Country / Region"
-                    value={
-                      result?.ip?.country
-                        ? `${result.ip.country} (${result.ip.countryCode || ""})`
-                        : "N/A"
-                    }
-                  />
-                  <ResultCard
-                    title="Autonomous System (ASN)"
-                    value={result?.ip?.as || "N/A"}
-                  />
+              )}
+
+              {/* TAB 2: DNS RECORDS */}
+              {activeTab === "dns" && (
+                <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 animate-fade-in">
+                  <SectionTitle icon={FiGlobe} title="DNS Configuration" />
+                  <DNSCard dnsRecords={result?.dns} />
                 </div>
-              </div>
-            </div>
+              )}
 
-            {/* Network Infrastructure & Subdomains */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-                <SectionTitle icon={FiGlobe} title="DNS Configuration" />
-                <DNSCard dnsRecords={result?.dns} />
-              </div>
+              {/* TAB 3: SUBDOMAINS */}
+              {activeTab === "subdomains" && (
+                <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 animate-fade-in">
+                  <SectionTitle icon={FiLayers} title="Discovered Subdomains" />
+                  <SubdomainList subdomains={result?.subdomains} />
+                </div>
+              )}
 
-              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-                <SectionTitle icon={FiLayers} title="Discovered Subdomains" />
-                <SubdomainList subdomains={result?.subdomains} />
-              </div>
-            </div>
+              {/* TAB 4: PORTS & TECH STACK */}
+              {activeTab === "ports_tech" && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in">
+                  <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
+                    <SectionTitle icon={FiServer} title="Shodan & Open Ports" />
+                    <ShodanCard shodanData={result?.ports} />
+                  </div>
 
-            {/* Port Scanning & Technology Stack */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-                <SectionTitle icon={FiServer} title="Shodan & Open Ports" />
-                <ShodanCard shodanData={result?.ports} />
-              </div>
+                  <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
+                    <SectionTitle icon={FiCpu} title="Detected Tech Stack" />
+                    <TechStack techData={result?.tech} />
+                  </div>
+                </div>
+              )}
 
-              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-                <SectionTitle icon={FiCpu} title="Detected Tech Stack" />
-                <TechStack techData={result?.tech} />
-              </div>
-            </div>
-
-            {/* Visual Threat Graph & Mapping */}
-            <div className="grid grid-cols-1 gap-8">
-              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-                <SectionTitle icon={FiShare2} title="Infrastructure Network Graph" />
-                <DomainGraph data={result} />
-              </div>
+              {/* TAB 5: NETWORK GRAPH */}
+              {activeTab === "graph" && (
+                <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 animate-fade-in">
+                  <SectionTitle icon={FiShare2} title="Infrastructure Network Graph" />
+                  <DomainGraph data={result} />
+                </div>
+              )}
             </div>
           </div>
         )}
