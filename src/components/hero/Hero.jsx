@@ -1532,27 +1532,30 @@ function Hero() {
               </div>
             </div>
 
-            {/* 🌟 TAB NAVIGATION HEADER BAR */}
-            <div className="sticky top-4 z-40 mb-8 p-1.5 rounded-2xl bg-zinc-950/90 border border-green-500/30 backdrop-blur-xl shadow-2xl flex items-center justify-around gap-1 overflow-x-auto">
-              {[
-                { id: "overview", label: "Overview & Risk", icon: <FaChartPie /> },
-                { id: "recon", label: "Network Recon", icon: <FaGlobe /> },
-                { id: "security", label: "Security & Ports", icon: <FaShieldAlt /> },
-                { id: "tech", label: "Tech Stack & Web", icon: <FaThLarge /> },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs sm:text-sm font-bold transition-all whitespace-nowrap flex-1 justify-center ${
-                    activeTab === tab.id
-                      ? "bg-green-500 text-black shadow-[0_0_15px_rgba(74,222,128,0.5)]"
-                      : "text-gray-400 hover:text-white hover:bg-zinc-900"
-                  }`}
-                >
-                  {tab.icon}
-                  {tab.label}
-                </button>
-              ))}
+            {/* 🌟 MOBILE & DESKTOP OPTIMIZED TAB NAVIGATION HEADER BAR */}
+            <div className="sticky top-4 z-40 mb-8 p-1.5 rounded-2xl bg-zinc-950/90 border border-green-500/30 backdrop-blur-xl shadow-2xl">
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth px-1 py-0.5 sm:justify-around">
+                {[
+                  { id: "overview", label: "Overview & Risk", shortLabel: "Overview", icon: <FaChartPie /> },
+                  { id: "recon", label: "Network Recon", shortLabel: "Recon", icon: <FaGlobe /> },
+                  { id: "security", label: "Security & Ports", shortLabel: "Security", icon: <FaShieldAlt /> },
+                  { id: "tech", label: "Tech Stack & Web", shortLabel: "Tech Stack", icon: <FaThLarge /> },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl font-mono text-xs sm:text-sm font-bold transition-all whitespace-nowrap shrink-0 sm:flex-1 ${
+                      activeTab === tab.id
+                        ? "bg-green-500 text-black shadow-[0_0_15px_rgba(74,222,128,0.5)] scale-[1.02]"
+                        : "text-gray-400 hover:text-white hover:bg-zinc-900/80"
+                    }`}
+                  >
+                    <span className="text-sm sm:text-base">{tab.icon}</span>
+                    <span className="inline sm:hidden">{tab.shortLabel}</span>
+                    <span className="hidden sm:inline">{tab.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* 📍 TAB 1: OVERVIEW & RISK ASSESSMENT */}
