@@ -1185,6 +1185,645 @@
 
 // export default Hero;
 
+// import DNSCard from "../results/DNSCard";
+// import ResultCard from "../results/ResultCard";
+// import { useState, useEffect } from "react";
+// import { useTheme } from "../../context/ThemeContext";
+// import { motion } from "framer-motion";
+// import SearchBox from "./SearchBox";
+// import FeatureCard from "./FeatureCard";
+// import LoadingCard from "../results/LoadingCard";
+// import "react-circular-progressbar/dist/styles.css";
+
+// import {
+//   CircularProgressbar,
+//   buildStyles,
+// } from "react-circular-progressbar";
+
+// import {
+//   FaGlobe,
+//   FaLock,
+//   FaServer,
+//   FaShieldAlt,
+//   FaUserSecret,
+//   FaFilePdf,
+//   FaTerminal,
+//   FaDownload,
+//   FaCheckCircle,
+//   FaExclamationTriangle,
+//   FaTimesCircle,
+//   FaInfoCircle,
+//   FaExternalLinkAlt,
+//   FaNetworkWired,
+//   FaBug,
+//   FaArrowUp,
+//   FaChartPie,
+//   FaThLarge,
+// } from "react-icons/fa";
+
+// const formatServer = (server) => {
+//   if (!server) return "🌐 Unknown Server";
+//   if (server === "gws") return "🌐 Google Web Server (gws)";
+//   if (server === "LiteSpeed") return "🌐 LiteSpeed";
+//   if (server === "cloudflare") return "☁ Cloudflare";
+//   if (server === "nginx") return "🌐 Nginx";
+//   if (server === "Apache") return "🌐 Apache";
+//   return `🌐 ${server}`;
+// };
+
+// const icons = {
+//   "javascript-frameworks": "⚛",
+//   "javascript-libraries": "📚",
+//   "font-scripts": "🖋",
+//   "web-servers": "🌐",
+//   "video-players": "🎥",
+//   cms: "📰",
+//   analytics: "📊",
+//   widgets: "🧩",
+// };
+
+// const formatSSLDate = (dateString) => {
+//   if (!dateString) return "Not Available";
+//   const date = new Date(dateString);
+//   return date.toLocaleString("en-GB", {
+//     day: "2-digit",
+//     month: "long",
+//     year: "numeric",
+//     hour: "2-digit",
+//     minute: "2-digit",
+//     timeZoneName: "short",
+//   });
+// };
+
+// function SectionTitle({ icon: Icon, title, moduleTag }) {
+//   return (
+//     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mt-8 mb-6 border-b border-green-500/20 pb-4">
+//       <div className="flex items-center gap-3">
+//         <div className="w-1.5 h-8 sm:h-9 rounded-full bg-gradient-to-b from-green-400 to-emerald-600 shadow-[0_0_12px_rgba(74,222,128,0.8)]" />
+//         <div className="p-2 rounded-xl bg-green-500/10 border border-green-500/30 text-green-400">
+//           <Icon className="text-xl" />
+//         </div>
+//         <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-green-400">
+//           {title}
+//         </h2>
+//       </div>
+//       {moduleTag && (
+//         <span className="font-mono text-xs text-green-400/70 bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20 self-start sm:self-auto">
+//           [{moduleTag}]
+//         </span>
+//       )}
+//     </div>
+//   );
+// }
+
+// function Hero() {
+//   const [result, setResult] = useState(null);
+//   const [findingFilter, setFindingFilter] = useState("ALL");
+//   const [loading, setLoading] = useState(false);
+//   const [showAllNS, setShowAllNS] = useState(false);
+//   const [activeTab, setActiveTab] = useState("overview"); // Active tab state
+//   const { darkMode } = useTheme();
+
+//   const [showScrollTop, setShowScrollTop] = useState(false);
+
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       if (window.scrollY > 300) {
+//         setShowScrollTop(true);
+//       } else {
+//         setShowScrollTop(false);
+//       }
+//     };
+//     window.addEventListener("scroll", handleScroll);
+//     return () => window.removeEventListener("scroll", handleScroll);
+//   }, []);
+
+//   const scrollToTop = () => {
+//     window.scrollTo({ top: 0, behavior: "smooth" });
+//   };
+
+//   const countryNames = {
+//     IN: "India",
+//     US: "United States",
+//     GB: "United Kingdom",
+//     CA: "Canada",
+//     AU: "Australia",
+//     FR: "France",
+//     DE: "Germany",
+//     JP: "Japan",
+//     SG: "Singapore",
+//     CN: "China",
+//     AE: "United Arab Emirates",
+//   };
+
+//   const countryFlags = {
+//     India: "🇮🇳",
+//     "United States": "🇺🇸",
+//     Iceland: "🇮🇸",
+//     Germany: "🇩🇪",
+//     France: "🇫🇷",
+//     Canada: "🇨🇦",
+//     Australia: "🇦🇺",
+//     Japan: "🇯🇵",
+//     Singapore: "🇸🇬",
+//   };
+
+//   const features = [
+//     { icon: <FaGlobe />, title: "WHOIS Lookup" },
+//     { icon: <FaServer />, title: "DNS Records" },
+//     { icon: <FaLock />, title: "SSL Check" },
+//     { icon: <FaShieldAlt />, title: "Security Headers" },
+//     { icon: <FaNetworkWired />, title: "IP Information" },
+//     { icon: <FaUserSecret />, title: "Username Search" },
+//     { icon: <FaFilePdf />, title: "PDF Report" },
+//     { icon: <FaBug />, title: "Risk Score" },
+//   ];
+
+//   const downloadPDF = async () => {
+//     if (!result) return;
+//     try {
+//       const response = await fetch("https://security-scanner-api-6rct.onrender.com/generate-pdf", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify(result),
+//       });
+
+//       if (!response.ok) throw new Error("PDF generation failed.");
+
+//       const blob = await response.blob();
+//       const url = window.URL.createObjectURL(blob);
+//       const a = document.createElement("a");
+//       a.href = url;
+//       a.download = `OSINT_Report_${result.whois?.domain || "Target"}.pdf`;
+//       document.body.appendChild(a);
+//       a.click();
+//       a.remove();
+//       window.URL.revokeObjectURL(url);
+//     } catch (err) {
+//       console.error(err);
+//       alert("Unable to generate PDF report.");
+//     }
+//   };
+
+//   return (
+//     <section
+//       id="hero"
+//       className={`relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20 text-center transition-colors duration-500 ${
+//         darkMode ? "text-white" : "text-slate-900"
+//       }`}
+//     >
+//       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-green-500/10 blur-3xl pointer-events-none -z-10 rounded-full" />
+//       <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f2d1e_1px,transparent_1px),linear-gradient(to_bottom,#0f2d1e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20 pointer-events-none -z-10" />
+
+//       {/* Header Badge */}
+//       <motion.div
+//         initial={{ opacity: 0, y: -20 }}
+//         animate={{ opacity: 1, y: 0 }}
+//         className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-green-500/30 bg-green-500/10 backdrop-blur-md shadow-[0_0_20px_rgba(74,222,128,0.15)]"
+//       >
+//         <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_rgba(74,222,128,1)]" />
+//         <span className="text-green-400 text-xs sm:text-sm font-mono tracking-wider font-semibold">
+//           NEXT-GEN OSINT INTELLIGENCE ENGINE
+//         </span>
+//       </motion.div>
+
+//       {/* Hero Title */}
+//       <motion.h1
+//         initial={{ opacity: 0, scale: 0.95 }}
+//         animate={{ opacity: 1, scale: 1 }}
+//         transition={{ duration: 0.6 }}
+//         className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-green-400 drop-shadow-[0_0_35px_rgba(74,222,128,0.4)] tracking-tight"
+//       >
+//         OSINT Cyber
+//       </motion.h1>
+
+//       <h2
+//         className={`text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-1 ${
+//           darkMode ? "text-white" : "text-slate-900"
+//         }`}
+//       >
+//         Footprint Analyzer
+//       </h2>
+
+//       <p
+//         className={`mt-6 text-base sm:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed ${
+//           darkMode ? "text-gray-400" : "text-gray-600"
+//         }`}
+//       >
+//         Discover digital footprints using WHOIS, DNS, SSL, IP intelligence,
+//         technology detection, and vulnerability reconnaissance.
+//       </p>
+
+//       {/* Search Bar */}
+//       <div className="mt-10">
+//         <SearchBox
+//           setResult={setResult}
+//           loading={loading}
+//           setLoading={setLoading}
+//         />
+//       </div>
+
+//       {loading && <LoadingCard />}
+
+//       {!result && (
+//         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-5 mt-12 sm:mt-16">
+//           {features.map((item, index) => (
+//             <FeatureCard key={index} icon={item.icon} title={item.title} />
+//           ))}
+//         </div>
+//       )}
+
+//       {/* RESULTS DISPLAY AREA */}
+//       {result && !result.success ? (
+//         <div className="mt-16 max-w-2xl mx-auto">
+//           <div className="rounded-3xl border border-red-500/40 bg-red-500/10 p-8 text-center backdrop-blur-xl shadow-2xl">
+//             <div className="w-16 h-16 mx-auto rounded-full bg-red-500/20 border border-red-500 flex items-center justify-center text-red-400 text-3xl mb-4">
+//               <FaTimesCircle />
+//             </div>
+//             <h2 className="text-2xl sm:text-3xl font-bold text-red-400">
+//               Analysis Failed
+//             </h2>
+//             <p className="mt-3 text-lg font-medium text-red-200">
+//               {result.message}
+//             </p>
+//           </div>
+//         </div>
+//       ) : (
+//         result && (
+//           <div className="mt-12 text-left">
+//             {/* Target Domain HUD Header Card */}
+//             <div className="mb-8">
+//               <div
+//                 className={`rounded-3xl border p-6 sm:p-8 shadow-2xl backdrop-blur-xl ${
+//                   darkMode
+//                     ? "bg-zinc-950/80 border-green-500/30 shadow-[0_10px_40px_rgba(0,0,0,0.8)]"
+//                     : "bg-white border-slate-200 shadow-xl"
+//                 }`}
+//               >
+//                 <div className="flex flex-col lg:flex-row justify-between gap-6">
+//                   <div className="space-y-3">
+//                     <div className="flex items-center gap-2">
+//                       <span className="px-2.5 py-1 rounded bg-green-500/10 border border-green-500/30 font-mono text-xs text-green-400 font-bold">
+//                         TARGET_LOCKED
+//                       </span>
+//                       <span className="text-xs font-mono text-gray-500">
+//                         • RECON COMPLETED
+//                       </span>
+//                     </div>
+
+//                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold break-all tracking-tight flex items-center gap-3">
+//                       <span className="text-green-400">🌐</span>
+//                       {result.whois.domain}
+//                     </h1>
+
+//                     <div className="flex flex-wrap gap-2.5 pt-2">
+//                       <span className="inline-flex items-center gap-2 bg-green-500/20 border border-green-500/40 text-green-400 px-4 py-1.5 rounded-full font-semibold text-xs sm:text-sm">
+//                         <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+//                         Target Active
+//                       </span>
+//                       <button
+//                         onClick={downloadPDF}
+//                         className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-400 text-black px-4 py-1.5 rounded-full font-bold text-xs sm:text-sm transition-all shadow-[0_0_15px_rgba(74,222,128,0.3)]"
+//                       >
+//                         <FaDownload /> Quick Export PDF
+//                       </button>
+//                     </div>
+//                   </div>
+
+//                   <div className="grid grid-cols-2 gap-4 bg-zinc-900/40 border border-zinc-800 p-4 rounded-2xl">
+//                     <div>
+//                       <div className="text-gray-400 text-xs font-mono uppercase">
+//                         Registrar
+//                       </div>
+//                       <div className="font-bold text-sm mt-1 break-all">
+//                         {result.whois.registrar}
+//                       </div>
+//                     </div>
+//                     <div>
+//                       <div className="text-gray-400 text-xs font-mono uppercase">
+//                         Country
+//                       </div>
+//                       <div className="font-bold text-sm mt-1">
+//                         {result.whois.country
+//                           ? `${countryFlags[result.whois.country] || "🌍"} ${
+//                               result.whois.country
+//                             }`
+//                           : "🌍 N/A"}
+//                       </div>
+//                     </div>
+//                     <div>
+//                       <div className="text-gray-400 text-xs font-mono uppercase">
+//                         Created
+//                       </div>
+//                       <div className="font-bold text-sm mt-1 font-mono">
+//                         {result.whois.creation_date}
+//                       </div>
+//                     </div>
+//                     <div>
+//                       <div className="text-gray-400 text-xs font-mono uppercase">
+//                         Expiration
+//                       </div>
+//                       <div className="font-bold text-sm mt-1 font-mono">
+//                         {result.whois.expiration_date}
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* 🌟 TAB NAVIGATION HEADER BAR */}
+//             <div className="sticky top-4 z-40 mb-8 p-1.5 rounded-2xl bg-zinc-950/90 border border-green-500/30 backdrop-blur-xl shadow-2xl flex items-center justify-around gap-1 overflow-x-auto">
+//               {[
+//                 { id: "overview", label: "Overview & Risk", icon: <FaChartPie /> },
+//                 { id: "recon", label: "Network Recon", icon: <FaGlobe /> },
+//                 { id: "security", label: "Security & Ports", icon: <FaShieldAlt /> },
+//                 { id: "tech", label: "Tech Stack & Web", icon: <FaThLarge /> },
+//               ].map((tab) => (
+//                 <button
+//                   key={tab.id}
+//                   onClick={() => setActiveTab(tab.id)}
+//                   className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs sm:text-sm font-bold transition-all whitespace-nowrap flex-1 justify-center ${
+//                     activeTab === tab.id
+//                       ? "bg-green-500 text-black shadow-[0_0_15px_rgba(74,222,128,0.5)]"
+//                       : "text-gray-400 hover:text-white hover:bg-zinc-900"
+//                   }`}
+//                 >
+//                   {tab.icon}
+//                   {tab.label}
+//                 </button>
+//               ))}
+//             </div>
+
+//             {/* 📍 TAB 1: OVERVIEW & RISK ASSESSMENT */}
+//             {activeTab === "overview" && (
+//               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+//                 <SectionTitle
+//                   icon={FaShieldAlt}
+//                   title="Security Risk Scorecard"
+//                   moduleTag="MOD-11 // ASSESSMENT"
+//                 />
+//                 <div className="w-full">
+//                   <div className="rounded-3xl border border-green-500/30 bg-gradient-to-br from-zinc-950 via-zinc-900 to-black p-6 sm:p-8 shadow-2xl">
+//                     <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+//                       <div className="flex flex-col sm:flex-row items-center gap-6">
+//                         <div className="w-32 h-32 sm:w-40 sm:h-40 shrink-0">
+//                           <CircularProgressbar
+//                             value={result.risk.score}
+//                             text={`${result.risk.score}`}
+//                             styles={buildStyles({
+//                               textSize: "20px",
+//                               pathColor:
+//                                 result.risk.score >= 80
+//                                   ? "#22c55e"
+//                                   : result.risk.score >= 60
+//                                   ? "#facc15"
+//                                   : "#ef4444",
+//                               trailColor: "#18181b",
+//                               textColor: "#ffffff",
+//                             })}
+//                           />
+//                         </div>
+//                         <div className="text-center sm:text-left">
+//                           <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+//                             Target Security Posture
+//                           </h2>
+//                           <p className="text-xs sm:text-sm text-gray-400 mt-2 max-w-md">
+//                             Calculated dynamically using SSL configuration, security headers, open ports, HTTP parameters, WAF presence, and known exposures.
+//                           </p>
+//                           <div className="mt-4 flex flex-wrap justify-center sm:justify-start gap-2.5 font-mono text-xs">
+//                             <span className="px-3 py-1.5 rounded-lg bg-green-500/15 border border-green-500/30 text-green-400 font-bold">
+//                               Grade : {result.risk.grade}
+//                             </span>
+//                             <span className="px-3 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-300">
+//                               {result.risk.level}
+//                             </span>
+//                           </div>
+//                         </div>
+//                       </div>
+//                       <div>
+//                         <div
+//                           className={`px-6 py-3 rounded-2xl font-mono text-sm sm:text-base font-extrabold border uppercase ${
+//                             result.risk.severity === "Low"
+//                               ? "bg-green-500/15 text-green-400 border-green-500/30"
+//                               : result.risk.severity === "Medium"
+//                               ? "bg-yellow-500/15 text-yellow-400 border-yellow-500/30"
+//                               : "bg-red-500/15 text-red-400 border-red-500/30"
+//                           }`}
+//                         >
+//                           {result.risk.severity} RISK EXPOSURE
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+
+//                 {/* SECURITY FINDINGS */}
+//                 <div className="mt-8">
+//                   <div className="rounded-3xl border border-green-500/20 bg-zinc-950 p-6 sm:p-8 flex flex-col h-[480px]">
+//                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+//                       <h3 className="text-xl font-bold text-green-400 flex items-center gap-2">
+//                         <FaBug /> Security Findings
+//                       </h3>
+//                       <div className="flex flex-wrap gap-1.5">
+//                         {["ALL", "PASS", "WARNING", "FAIL", "INFO"].map((status) => (
+//                           <button
+//                             key={status}
+//                             onClick={() => setFindingFilter(status)}
+//                             className={`px-3 py-1.5 text-xs rounded-xl font-mono transition-all ${
+//                               findingFilter === status
+//                                 ? "bg-green-500 text-black font-bold"
+//                                 : "bg-zinc-900 text-gray-400 hover:bg-zinc-800"
+//                             }`}
+//                           >
+//                             {status} (
+//                             {status === "ALL"
+//                               ? result.risk.findings.length
+//                               : result.risk.findings.filter((item) => item.status === status).length}
+//                             )
+//                           </button>
+//                         ))}
+//                       </div>
+//                     </div>
+
+//                     <div className="space-y-3 overflow-y-auto pr-2 flex-1 custom-scroll">
+//                       {result.risk.findings
+//                         .filter((item) => findingFilter === "ALL" || item.status === findingFilter)
+//                         .map((item, index) => (
+//                           <div key={index} className="flex items-start gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
+//                             <span className="mt-1 text-lg shrink-0">
+//                               {item.status === "PASS" ? <FaCheckCircle className="text-green-400" /> :
+//                                item.status === "WARNING" ? <FaExclamationTriangle className="text-yellow-400" /> :
+//                                item.status === "INFO" ? <FaInfoCircle className="text-blue-400" /> :
+//                                <FaTimesCircle className="text-red-400" />}
+//                             </span>
+//                             <div className="space-y-1">
+//                               <div className="flex items-center gap-2 flex-wrap">
+//                                 <span className="font-semibold text-sm text-white">{item.title}</span>
+//                                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase ${
+//                                   item.status === "PASS" ? "bg-green-500/15 text-green-400" :
+//                                   item.status === "WARNING" ? "bg-yellow-500/15 text-yellow-400" :
+//                                   item.status === "INFO" ? "bg-blue-500/15 text-blue-400" :
+//                                   "bg-red-500/15 text-red-400"
+//                                 }`}>
+//                                   {item.status}
+//                                 </span>
+//                               </div>
+//                               <p className="text-xs text-gray-300 leading-relaxed">{item.description}</p>
+//                             </div>
+//                           </div>
+//                         ))}
+//                     </div>
+//                   </div>
+//                 </div>
+//               </motion.div>
+//             )}
+
+//             {/* 📍 TAB 2: NETWORK RECON (WHOIS, DNS, IP, SUBDOMAINS) */}
+//             {activeTab === "recon" && (
+//               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+//                 <SectionTitle icon={FaGlobe} title="WHOIS Reconnaissance" moduleTag="MOD-01 // WHOIS" />
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+//                   <ResultCard title="Domain" value={result.whois.domain} />
+//                   <ResultCard title="Domain Type" value={result.whois.domain_type} />
+//                   <ResultCard title="Registrar" value={result.whois.registrar} />
+//                   <ResultCard title="Created" value={result.whois.creation_date} />
+//                   <ResultCard title="Expires" value={result.whois.expiration_date} />
+//                   <ResultCard title="Domain Age" value={result.whois.domain_age} />
+//                 </div>
+
+//                 <SectionTitle icon={FaServer} title="DNS Resolution" moduleTag="MOD-02 // DNS" />
+//                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+//                   <DNSCard title="A Records" records={result.dns.A} />
+//                   <DNSCard title="AAAA Records" records={result.dns.AAAA} />
+//                   <DNSCard title="MX Records" records={result.dns.MX} />
+//                   <DNSCard title="NS Records" records={result.dns.NS} />
+//                   <DNSCard title="TXT Records" records={result.dns.TXT} />
+//                 </div>
+
+//                 <SectionTitle icon={FaNetworkWired} title="IP Intelligence" moduleTag="MOD-03 // IP_GEO" />
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+//                   <ResultCard title="IP Address" value={result.ip.ip} />
+//                   <ResultCard title="Country" value={`${countryFlags[result.ip.country_code] || "🌍"} ${result.ip.country}`} />
+//                   <ResultCard title="ISP" value={result.ip.isp} />
+//                   <ResultCard title="ASN" value={result.ip.asn ?? "Not Available"} />
+//                   <ResultCard title="Coordinates" value={`${result.ip.latitude}°, ${result.ip.longitude}°`} />
+//                 </div>
+
+//                 <SectionTitle icon={FaNetworkWired} title="Subdomain Enumeration" moduleTag="MOD-10 // SUBDOMAINS" />
+//                 <div className="max-h-[250px] overflow-y-auto pr-2 custom-scroll border border-zinc-800 p-4 rounded-2xl bg-zinc-950">
+//                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+//                     {result.subdomains?.subdomains.map((sub) => (
+//                       <div key={sub} className="rounded-xl border border-green-500/20 bg-zinc-900/60 p-2.5 text-xs font-mono text-green-300 break-all">
+//                         🌐 {sub}
+//                       </div>
+//                     ))}
+//                   </div>
+//                 </div>
+//               </motion.div>
+//             )}
+
+//             {/* 📍 TAB 3: SECURITY & PORTS (SSL, HEADERS, PORTS, WAF) */}
+//             {activeTab === "security" && (
+//               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+//                 <SectionTitle icon={FaLock} title="SSL/TLS Encryption" moduleTag="MOD-05 // SSL" />
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+//                   <ResultCard title="Issued To" value={`🌐 ${result.ssl.issued_to}`} />
+//                   <ResultCard title="Issued By" value={`🏢 ${result.ssl.issued_by}`} />
+//                   <ResultCard title="TLS Version" value={result.ssl.tls_version} />
+//                   <ResultCard title="Days Remaining" value={`${result.ssl.days_remaining} Days`} />
+//                 </div>
+
+//                 <SectionTitle icon={FaBug} title="Port Reconnaissance" moduleTag="MOD-04 // PORTS" />
+//                 <div className="max-h-[280px] overflow-y-auto pr-2 custom-scroll mb-6">
+//                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+//                     {result.ports.ports.map((port) => (
+//                       <ResultCard
+//                         key={port.port}
+//                         title={`${port.port} • ${port.service}`}
+//                         value={
+//                           <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-bold font-mono ${
+//                             port.status === "Open" ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
+//                           }`}>
+//                             {port.status}
+//                           </span>
+//                         }
+//                       />
+//                     ))}
+//                   </div>
+//                 </div>
+
+//                 <SectionTitle icon={FaShieldAlt} title="Security Headers" moduleTag="MOD-06 // HEADERS" />
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+//                   {Object.entries(result.headers).map(([key, value]) => (
+//                     <ResultCard
+//                       key={key}
+//                       title={key.replaceAll("-", " ")}
+//                       value={
+//                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold ${
+//                           value ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
+//                         }`}>
+//                           {value ? "Present" : "Missing"}
+//                         </span>
+//                       }
+//                     />
+//                   ))}
+//                 </div>
+//               </motion.div>
+//             )}
+
+//             {/* 📍 TAB 4: TECH STACK & WEB */}
+//             {activeTab === "tech" && (
+//               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+//                 <SectionTitle icon={FaTerminal} title="Technology Stack" moduleTag="MOD-07 // TECH" />
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+//                   {Object.entries(result.technology || {})
+//                     .filter(([_, values]) => Array.isArray(values) && values.length > 0)
+//                     .map(([category, values]) => (
+//                       <ResultCard
+//                         key={category}
+//                         title={category.replace(/-/g, " ").toUpperCase()}
+//                         value={values.join(", ")}
+//                       />
+//                     ))}
+//                 </div>
+
+//                 <SectionTitle icon={FaGlobe} title="HTTP Configuration" moduleTag="MOD-08 // HTTP" />
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+//                   <ResultCard title="Web Server" value={formatServer(result.http?.server)} />
+//                   <ResultCard title="Powered By" value={result.http?.powered_by} />
+//                   <ResultCard title="HTTP Version" value={result.http?.http_version} />
+//                 </div>
+//               </motion.div>
+//             )}
+
+//             {/* DOWNLOAD PDF CTA */}
+//             <div className="mt-12 text-center border-t border-zinc-800 pt-8">
+//               <button
+//                 onClick={downloadPDF}
+//                 className="px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-400 text-zinc-950 font-extrabold text-base tracking-wide shadow-[0_0_25px_rgba(74,222,128,0.3)] hover:scale-105 transition-all"
+//               >
+//                 <FaDownload className="inline-block mr-2" /> Download Executive Security PDF
+//               </button>
+//             </div>
+//           </div>
+//         )
+//       )}
+
+//       {showScrollTop && (
+//         <button
+//           onClick={scrollToTop}
+//           className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-green-500 text-zinc-950 shadow-[0_0_20px_rgba(74,222,128,0.5)] hover:scale-110 transition-all"
+//         >
+//           <FaArrowUp />
+//         </button>
+//       )}
+//     </section>
+//   );
+// }
+
+// export default Hero;
+
 import DNSCard from "../results/DNSCard";
 import ResultCard from "../results/ResultCard";
 import { useState, useEffect } from "react";
